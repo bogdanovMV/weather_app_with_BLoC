@@ -1,0 +1,9 @@
+--2021-12-10 02:01:28--  http://get/
+Распознаётся get (get)… ошибка: Временный сбой в разрешении имен.
+wget: не удаётся разрешить адрес ‘get’
+--2021-12-10 02:01:28--  http://pro.openweathermap.org/data/2.5/forecast/hourly?q=omsk
+Распознаётся pro.openweathermap.org (pro.openweathermap.org)… 37.139.20.211, 37.139.20.59
+Подключение к pro.openweathermap.org (pro.openweathermap.org)|37.139.20.211|:80... соединение установлено.
+HTTP-запрос отправлен. Ожидание ответа… 401 Unauthorized
+
+Ошибка аутентификации пользователя/пароля.

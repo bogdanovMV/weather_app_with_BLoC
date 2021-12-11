@@ -38,8 +38,9 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     on<FetchWeather>((event, emit) async {
       emit(WeatherIsLoading());
       try {
-        WeatherModel? weatherModel =
-            await weatherRepository.getWeather(event._city);
+        WeatherModel? weatherModel = await weatherRepository
+            .getWeather(event._city)
+            .timeout(Duration(seconds: 2));
         emit(WeatherIsLoaded(weatherModel!));
       } catch (_) {
         emit(WeatherIsNotLoaded());

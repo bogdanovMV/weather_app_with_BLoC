@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:weather_app/services.dart';
 import 'package:weather_app/weather_model.dart';
 import 'package:weather_app/weather_repository.dart';
 
@@ -37,10 +38,21 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   WeatherBloc(this.weatherRepository) : super(WeatherIsNotSearched()) {
     on<FetchWeather>((event, emit) async {
       emit(WeatherIsLoading());
+      WeatherModel? weatherModel;
       try {
-        WeatherModel? weatherModel = await weatherRepository
-            .getWeather(event._city)
-            .timeout(Duration(seconds: 2));
+        if (event._city.isNotEmpty) {
+          weatherModel = await weatherRepository
+              .getWeatherByCityName(event._city)
+              .timeout(Duration(seconds: 2));
+
+        } else {
+          String? argLocationUrl = await getGPSCoordinates();
+          if (argLocationUrl != null) {
+            weatherModel = await weatherRepository
+                .getWeatherByLocation(argLocationUrl)
+                .timeout(Duration(seconds: 2));
+          }
+        }
         emit(WeatherIsLoaded(weatherModel!));
       } catch (_) {
         emit(WeatherIsNotLoaded());

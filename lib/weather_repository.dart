@@ -7,9 +7,26 @@ class WeatherRepository {
 
   WeatherRepository(String city);
 
-  Future<WeatherModel?> getWeather(String city) async {
+  Future<WeatherModel?> getWeatherByCityName(String city) async {
+    String url = "https://geocoding-api.open-meteo.com/v1/search?name=$city";
+
+    http.Response response = await http.get(Uri.parse(url));
+    if (response.statusCode != 200) {
+      throw Exception(response.body);
+    }
+
+    Map<String, dynamic> data = json.decode(response.body);
+    double latitude = data['results'][0]['latitude'];
+    double longitude = data['results'][0]['longitude'];
+    String argLocation = 'latitude=$latitude&longitude=$longitude';
+    weather = await getWeatherByLocation(argLocation);
+
+    return weather;
+  }
+
+  Future<WeatherModel?> getWeatherByLocation(String argLocation) async {
     String url = "https://api.open-meteo.com/v1/forecast?"
-        "latitude=55&longitude=73&daily=temperature_2m_max,temperature_2m_min"
+        "$argLocation&daily=temperature_2m_max,temperature_2m_min"
         "&current_weather=true&windspeed_unit=ms&timezone=Asia%2FOmsk";
 
     http.Response response = await http.get(Uri.parse(url));

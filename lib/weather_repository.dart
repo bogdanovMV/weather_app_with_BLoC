@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:weather_app/weather_model.dart';
 
 class WeatherRepository {
@@ -12,15 +12,11 @@ class WeatherRepository {
         "latitude=55&longitude=73&daily=temperature_2m_max,temperature_2m_min"
         "&current_weather=true&windspeed_unit=ms&timezone=Asia%2FOmsk";
 
-    HttpClient client = HttpClient();
-    HttpClientRequest request = await client.getUrl(Uri.parse(url));
-    HttpClientResponse response = await request.close();
+    http.Response response = await http.get(Uri.parse(url));
     if (response.statusCode != 200) {
-      throw Exception();
+      throw Exception(response.body);
     }
-    String reply = await response.transform(utf8.decoder).join();
-    Map<String, dynamic> data = json.decode(reply);
-    client.close();
+    Map<String, dynamic> data = json.decode(response.body);
     String tempMin = '${data['daily']['temperature_2m_min'][0]} '
         '${data['daily_units']['temperature_2m_min']}';
     String tempMax = '${data['daily']['temperature_2m_max'][0]} '

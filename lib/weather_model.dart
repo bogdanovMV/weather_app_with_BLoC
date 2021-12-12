@@ -1,5 +1,5 @@
 class WeatherModel {
-  final String? city;
+  final String city;
   final String temp;
   final String tempMin;
   final String tempMax;

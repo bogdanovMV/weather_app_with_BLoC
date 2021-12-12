@@ -104,7 +104,7 @@ class ShowWeather extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 10),
       child: Column(
         children: [
-          Text(weather.city?? ''),
+          Text(weather.city),
           const SizedBox(
             height: 10,
           ),

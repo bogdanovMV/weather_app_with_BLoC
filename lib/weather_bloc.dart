@@ -43,14 +43,14 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
         if (event._city.isNotEmpty) {
           weatherModel = await weatherRepository
               .getWeatherByCityName(event._city)
-              .timeout(Duration(seconds: 2));
+              .timeout(const Duration(seconds: 2));
 
         } else {
           String? argLocationUrl = await getGPSCoordinates();
           if (argLocationUrl != null) {
             weatherModel = await weatherRepository
                 .getWeatherByLocation(argLocationUrl)
-                .timeout(Duration(seconds: 2));
+                .timeout(const Duration(seconds: 2));
           }
         }
         emit(WeatherIsLoaded(weatherModel!));

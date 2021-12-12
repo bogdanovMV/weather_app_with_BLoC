@@ -5,6 +5,7 @@ import 'package:weather_app/weather_model.dart';
 import 'package:weather_app/weather_repository.dart';
 
 void main() => runApp(const MyApp());
+TextEditingController cityController = TextEditingController();
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -26,8 +27,6 @@ class MyApp extends StatelessWidget {
 
 class SearchPage extends StatelessWidget {
   const SearchPage({Key? key}) : super(key: key);
-
-  TextEditingController get cityController => TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -83,9 +82,9 @@ class SearchPage extends StatelessWidget {
               );
             } else if (state is WeatherIsLoaded) {
               return ShowWeather(
-                  weather: state.weather, city: cityController.text);
+                  weather: state.weather);
             }
-            return Text('Err');
+            return const Text('Err');
           },
         )
       ],
@@ -95,9 +94,8 @@ class SearchPage extends StatelessWidget {
 
 class ShowWeather extends StatelessWidget {
   final WeatherModel weather;
-  final String city;
 
-  const ShowWeather({Key? key, required this.weather, required this.city})
+  const ShowWeather({Key? key, required this.weather})
       : super(key: key);
 
   @override
@@ -106,7 +104,7 @@ class ShowWeather extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 10),
       child: Column(
         children: [
-          Text(city),
+          Text(weather.city?? ''),
           const SizedBox(
             height: 10,
           ),

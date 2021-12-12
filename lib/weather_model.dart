@@ -1,7 +1,8 @@
 class WeatherModel {
-  final temp;
-  final tempMin;
-  final tempMax;
+  final String? city;
+  final String temp;
+  final String tempMin;
+  final String tempMax;
 
-  WeatherModel(this.temp, this.tempMin, this.tempMax);
+  WeatherModel(this.city, this.temp, this.tempMin, this.tempMax);
 }

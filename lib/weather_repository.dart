@@ -6,7 +6,7 @@ import 'package:weather_app/weather_model.dart';
 class WeatherRepository {
   WeatherModel? weather;
 
-  WeatherRepository(String city);
+  WeatherRepository();
 
   Future<WeatherModel?> getWeatherByCityName(String city) async {
     String url = "https://geocoding-api.open-meteo.com/v1/search?name=$city";
@@ -27,7 +27,8 @@ class WeatherRepository {
     return weather;
   }
 
-  Future<WeatherModel?> getWeatherByLocation(String argLocation, String city) async {
+  Future<WeatherModel?> getWeatherByLocation(
+      String argLocation, String city) async {
     String url = "https://api.open-meteo.com/v1/forecast?"
         "$argLocation&daily=temperature_2m_max,temperature_2m_min"
         "&current_weather=true&windspeed_unit=ms&timezone=Asia%2FOmsk";

@@ -35,7 +35,9 @@ class WeatherIsNotLoaded extends WeatherState {}
 class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   WeatherRepository weatherRepository;
 
-  WeatherBloc(this.weatherRepository) : super(WeatherIsNotSearched()) {
+  WeatherBloc()
+      : weatherRepository = WeatherRepository(),
+        super(WeatherIsNotSearched()) {
     on<FetchWeather>((event, emit) async {
       emit(WeatherIsLoading());
       WeatherModel? weatherModel;
@@ -44,7 +46,6 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
           weatherModel = await weatherRepository
               .getWeatherByCityName(event._city)
               .timeout(const Duration(seconds: 2));
-
         } else {
           String? location = await getGPSCoordinates();
           String? argLocationUrl = getLocationUrl(location);

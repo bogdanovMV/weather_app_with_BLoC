@@ -24,7 +24,6 @@ Future<String?> getGPSCoordinates() async {
   }
 
   LocationData _locationData = await location.getLocation();
-  log(_locationData.toString());
 
   return '${_locationData.latitude} ${_locationData.longitude}';
 }
@@ -37,9 +36,17 @@ String? getLocationUrl(String? location) {
   return 'latitude=$_lat&longitude=$_lon';
 }
 
-Future<String> getCityName(double latitude, double longitude) async {
-  Address address = await GeoCode().reverseGeocoding(latitude: latitude, longitude: longitude);
-  log(address.toString());
-
-  return address.city ?? '';
+Future<String> getCityName(double latitude, double longitude, int call) async {
+  // free api throw exception
+  // "throttled to no more that 1 request per second for all free port users combined"
+  if (call > 5) return '';
+  try {
+    return await GeoCode()
+        .reverseGeocoding(latitude: latitude, longitude: longitude)
+        .then((address) => address.city ?? '');
+  } catch (e) {
+    log('method "getCityName" call № $call');
+    log(e.toString());
+    return getCityName(latitude, longitude, ++call);
+  }
 }

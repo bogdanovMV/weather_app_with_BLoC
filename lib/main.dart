@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/weather_bloc.dart';
 import 'package:weather_app/weather_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(const MyApp());
 TextEditingController cityController = TextEditingController();
+String? lastCityName;
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -27,11 +29,18 @@ class MyApp extends StatelessWidget {
 class SearchPage extends StatelessWidget {
   const SearchPage({Key? key}) : super(key: key);
 
+  Future<void> tryGetLastCityName(WeatherBloc weatherBloc) async {
+    lastCityName = await SharedPreferences.getInstance()
+        .then((prefs) => prefs.getString('lastCityName'));
+    if (lastCityName != null) weatherBloc.add(FetchWeather(lastCityName!));
+  }
+
   @override
   Widget build(BuildContext context) {
     final WeatherBloc weatherBloc = BlocProvider.of<WeatherBloc>(context);
     return BlocBuilder<WeatherBloc, WeatherState>(
       builder: (context, state) {
+        if (lastCityName == null) tryGetLastCityName(weatherBloc);
         if (state is WeatherIsNotSearched) {
           return Container(
             padding: const EdgeInsets.symmetric(vertical: 32),

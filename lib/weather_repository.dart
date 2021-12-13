@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_app/weather_model.dart';
 
 class WeatherRepository {
@@ -46,6 +47,9 @@ class WeatherRepository {
     String scale = tempMin.split(' ').last;
     String temp = '${data['current_weather']['temperature']} $scale';
     weather = WeatherModel(city, temp, tempMin, tempMax);
+
+    await SharedPreferences.getInstance()
+        .then((prefs) => prefs.setString('lastCityName', city));
     return weather;
   }
 }

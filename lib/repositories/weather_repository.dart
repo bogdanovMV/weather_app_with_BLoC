@@ -46,7 +46,8 @@ class WeatherRepository {
         '${data['daily_units']['temperature_2m_max']}';
     String scale = tempMin.split(' ').last;
     String temp = '${data['current_weather']['temperature']} $scale';
-    weather = WeatherModel(city, temp, tempMin, tempMax);
+    int weathercode = data['current_weather']['weathercode'];
+    weather = WeatherModel(city, temp, tempMin, tempMax, weathercode);
 
     await SharedPreferences.getInstance()
         .then((prefs) => prefs.setString('lastCityName', city));

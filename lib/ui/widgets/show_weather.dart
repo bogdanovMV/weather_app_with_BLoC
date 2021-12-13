@@ -12,7 +12,16 @@ class ShowWeather extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 10),
       child: Column(
         children: [
-          Text(weather.city),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(weather.city),
+              Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 30),
+                  width: 50,
+                  child: Image.asset('assets/images/${weather.state}.png'))
+            ],
+          ),
           const SizedBox(
             height: 10,
           ),

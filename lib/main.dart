@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'ui/ui.dart';
@@ -16,6 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Weather app',
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        appBar: AppBar(),
         body: BlocProvider(
           create: (BuildContext context) => WeatherBloc(),
           child: const SearchPage(),

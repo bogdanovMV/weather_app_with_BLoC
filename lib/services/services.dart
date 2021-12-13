@@ -28,13 +28,6 @@ Future<String?> getGPSCoordinates() async {
   return '${_locationData.latitude} ${_locationData.longitude}';
 }
 
-String? getLocationUrl(String? location) {
-  if (location == null) return null;
-  String _lat = location.split(' ').first;
-  String _lon = location.split(' ').last;
-
-  return 'latitude=$_lat&longitude=$_lon';
-}
 
 Future<String> getCityName(double latitude, double longitude, int call) async {
   // free api throw exception

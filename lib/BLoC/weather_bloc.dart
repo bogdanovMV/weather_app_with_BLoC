@@ -1,36 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:weather_app/services.dart';
-import 'package:weather_app/weather_model.dart';
-import 'package:weather_app/weather_repository.dart';
 
-@immutable
-abstract class WeatherEvent {}
+import '../services/services.dart';
+import '/models/weather_model.dart';
+import '/repositories/weather_repository.dart';
 
-class FetchWeather extends WeatherEvent {
-  final String _city;
-
-  FetchWeather(this._city);
-}
-
-class ResetWeather extends WeatherEvent {}
-
-@immutable
-abstract class WeatherState {}
-
-class WeatherIsNotSearched extends WeatherState {}
-
-class WeatherIsLoading extends WeatherState {}
-
-class WeatherIsLoaded extends WeatherState {
-  final WeatherModel _weather;
-
-  WeatherModel get weather => _weather;
-
-  WeatherIsLoaded(this._weather);
-}
-
-class WeatherIsNotLoaded extends WeatherState {}
+part 'weather_event.dart';
+part 'weather_state.dart';
 
 class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   WeatherRepository weatherRepository;
@@ -68,4 +44,11 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       emit(WeatherIsNotSearched());
     });
   }
+}
+
+String? getLocationUrl(String? location) {
+  if (location == null) return null;
+  String _lat = location.split(' ').first;
+  String _lon = location.split(' ').last;
+  return 'latitude=$_lat&longitude=$_lon';
 }

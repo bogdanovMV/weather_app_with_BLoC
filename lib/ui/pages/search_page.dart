@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../ui.dart';
 import '/BLoC/bloc.dart';
@@ -17,60 +18,73 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final WeatherBloc weatherBloc = BlocProvider.of<WeatherBloc>(context);
-    return BlocBuilder<WeatherBloc, WeatherState>(
-      builder: (context, state) {
-        if (lastCityName == null) tryGetLastCityName(weatherBloc);
-        if (state is WeatherIsNotSearched) {
-          return Container(
-            padding: const EdgeInsets.symmetric(vertical: 32),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Text('Search Weather'),
-                const Text('Instanly'),
-                const SizedBox(
-                  height: 24,
-                ),
-                TextFormField(
-                  controller: cityController,
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.search),
-                    enabledBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(color: Colors.white70)),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      borderSide:
-                      BorderSide(color: Theme.of(context).primaryColor),
+    return Stack(
+      alignment: Alignment.center,
+      fit: StackFit.expand,
+      children: [
+        SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          controller: ScrollController(initialScrollOffset: 500),
+          scrollDirection: Axis.horizontal,
+          child: Image.asset('assets/images/background.jpeg', fit: BoxFit.fill,),
+        ),
+        BlocBuilder<WeatherBloc, WeatherState>(
+          builder: (context, state) {
+            if (lastCityName == null) tryGetLastCityName(weatherBloc);
+            if (state is WeatherIsNotSearched) {
+              return Container(
+                padding: const EdgeInsets.symmetric(vertical: 32),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text('Search Weather'),
+                    const Text('Instanly'),
+                    const SizedBox(
+                      height: 24,
                     ),
-                    hintText: 'City Name',
-                    hintStyle: const TextStyle(color: Colors.white70),
-                  ),
+                    TextFormField(
+                      controller: cityController,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.search),
+                        enabledBorder: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderSide: BorderSide(color: Colors.white70)),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                          borderSide:
+                              BorderSide(color: Theme.of(context).primaryColor),
+                        ),
+                        hintText: 'City Name',
+                        hintStyle: const TextStyle(color: Colors.white70),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    OutlinedButton(
+                      onPressed: () {
+                        weatherBloc.add(FetchWeather(cityController.text));
+                      },
+                      child: const Text('Search'),
+                    )
+                  ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                OutlinedButton(
-                  onPressed: () {
-                    weatherBloc.add(FetchWeather(cityController.text));
-                  },
-                  child: const Text('Search'),
-                )
-              ],
-            ),
-          );
-        } else if (state is WeatherIsLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (state is WeatherIsLoaded) {
-          return ShowPage(weather: state.weather);
-        }
-        return const Center(
-          child: Text('Err'),
-        );
-      },
+              );
+            } else if (state is WeatherIsLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state is WeatherIsLoaded) {
+              return const ShowPage();
+            }
+            return const Center(
+              child: Text('Err'),
+            );
+          },
+        )
+      ],
     );
   }
 }

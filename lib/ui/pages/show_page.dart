@@ -1,55 +1,55 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '/BLoC/weather_bloc.dart';
+
 import '../ui.dart';
 import '/models/weather_model.dart';
 
 class ShowPage extends StatelessWidget {
-  final WeatherModel weather;
-
-  const ShowPage({Key? key, required this.weather}) : super(key: key);
+  const ShowPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 10),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(weather.city),
-              Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 30),
-                  width: 50,
-                  child: Image.asset('assets/images/${weather.state}.png'))
-            ],
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Text(weather.temp),
-          const Text('Temperature'),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  Text(weather.tempMin),
-                  const Text('Min Temperature'),
-                ],
-              ),
-              Column(
-                children: [
-                  Text(weather.tempMax),
-                  const Text('Max Temperature'),
-                ],
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Container()
-        ],
-      ),
+    final WeatherBloc weatherBloc = BlocProvider.of<WeatherBloc>(context);
+    final WeatherModel weather = (weatherBloc.state as WeatherIsLoaded).weather;
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(weather.city),
+            Container(
+                margin: const EdgeInsets.symmetric(horizontal: 30),
+                width: 50,
+                child: Image.asset('assets/images/${weather.state}.png'))
+          ],
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Text(weather.temp),
+        const Text('Temperature'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              children: [
+                Text(weather.tempMin),
+                const Text('Min Temperature'),
+              ],
+            ),
+            Column(
+              children: [
+                Text(weather.tempMax),
+                const Text('Max Temperature'),
+              ],
+            )
+          ],
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        ElevatedButton(onPressed: (){BlocProvider.of<WeatherBloc>(context).add(ResetWeather());}, child: Text('<-'))
+      ],
     );
   }
 }

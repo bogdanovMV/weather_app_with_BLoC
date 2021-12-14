@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'ui/ui.dart';
 import '/BLoC/weather_bloc.dart';
 
-
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
@@ -20,23 +22,21 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       try {
         if (event._city.isNotEmpty) {
           weatherModel = await weatherRepository
-              .getWeatherByCityName(event._city)
-              .timeout(const Duration(seconds: 1));
+              .getWeatherByCityName(event._city);
         } else {
           String? location = await getGPSCoordinates();
           String? argLocationUrl = getLocationUrl(location);
           if (argLocationUrl != null) {
             double _lat = double.parse(location!.split(' ').first);
             double _lon = double.parse(location.split(' ').last);
-            String _city = await getCityName(_lat, _lon, 0)
-                .timeout(const Duration(seconds: 1), onTimeout: () => '');
+            String _city = await getCityName(_lat, _lon, 0);
             weatherModel = await weatherRepository
-                .getWeatherByLocation(argLocationUrl, _city)
-                .timeout(const Duration(seconds: 1));
+                .getWeatherByLocation(argLocationUrl, _city);
           }
         }
         emit(WeatherIsLoaded(weatherModel!));
-      } catch (_) {
+      } catch (e) {
+        log(e.toString());
         emit(WeatherIsNotLoaded());
       }
     });

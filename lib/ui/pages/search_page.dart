@@ -65,7 +65,7 @@ class SearchPage extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         } else if (state is WeatherIsLoaded) {
-          return ShowWeather(weather: state.weather);
+          return ShowPage(weather: state.weather);
         }
         return const Center(
           child: Text('Err'),

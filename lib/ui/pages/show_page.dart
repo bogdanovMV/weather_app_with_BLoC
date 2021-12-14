@@ -1,10 +1,10 @@
 import '../ui.dart';
 import '/models/weather_model.dart';
 
-class ShowWeather extends StatelessWidget {
+class ShowPage extends StatelessWidget {
   final WeatherModel weather;
 
-  const ShowWeather({Key? key, required this.weather}) : super(key: key);
+  const ShowPage({Key? key, required this.weather}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -23,7 +23,7 @@ Future<String?> getGPSCoordinates() async {
     }
   }
 
-  LocationData _locationData = await location.getLocation();
+  LocationData _locationData = await location.getLocation().timeout(const Duration(seconds: 3));
 
   return '${_locationData.latitude} ${_locationData.longitude}';
 }
@@ -34,9 +34,12 @@ Future<String> getCityName(double latitude, double longitude, int call) async {
   // "throttled to no more that 1 request per second for all free port users combined"
   if (call > 5) return '';
   try {
-    return await GeoCode()
+    String _cityName = await GeoCode()
         .reverseGeocoding(latitude: latitude, longitude: longitude)
-        .then((address) => address.city ?? '');
+        .then((address) => address.city ?? '').timeout(const Duration(seconds: 3));
+
+    log('method "getCityName": $_cityName');
+    return _cityName;
   } catch (e) {
     log('method "getCityName" call № $call');
     log(e.toString());

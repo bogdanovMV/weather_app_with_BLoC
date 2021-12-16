@@ -1,3 +1,4 @@
 export 'package:flutter/material.dart';
-export 'pages/search_page.dart';
-export 'pages/show_page.dart';
+export 'home_page.dart';
+export 'widgets/search_widget.dart';
+export 'widgets/show_widget.dart';

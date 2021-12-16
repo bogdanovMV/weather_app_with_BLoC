@@ -4,8 +4,8 @@ import '/BLoC/weather_bloc.dart';
 import '../ui.dart';
 import '/models/weather_model.dart';
 
-class ShowPage extends StatelessWidget {
-  const ShowPage({Key? key}) : super(key: key);
+class ShowWidget extends StatelessWidget {
+  const ShowWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,10 @@ class ShowPage extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        ElevatedButton(onPressed: (){BlocProvider.of<WeatherBloc>(context).add(ResetWeather());}, child: Text('<-'))
+        ElevatedButton(
+          onPressed: (){weatherBloc.add(ResetWeather());},
+          child: const Text('return'),
+        ),
       ],
     );
   }

@@ -24,7 +24,7 @@ class WeatherModel {
       return 'lr';
     } else if ([55, 57, 65, 67, 82].contains(weatherCode)) {
       return 'hr';
-    } else if ([71, 73, 75].contains(weatherCode)) {
+    } else if ([71, 73, 75, 77, 85, 86].contains(weatherCode)) {
       return 'sn';
     } else if (weatherCode == 95) {
       return 't';

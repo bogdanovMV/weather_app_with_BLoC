@@ -14,32 +14,32 @@ class MyApp extends StatelessWidget {
       title: 'Weather app',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.lightGreen,
+        primarySwatch: Colors.green,
         inputDecorationTheme: InputDecorationTheme(
-          prefixIconColor: Colors.white,
+          prefixIconColor: Colors.yellow.shade50,
           enabledBorder: OutlineInputBorder(
             borderRadius: const BorderRadius.all(Radius.circular(10)),
             borderSide: BorderSide(color: Colors.lightGreen.shade200, width: 4),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: const BorderRadius.all(Radius.circular(10)),
-            borderSide: BorderSide(color: Colors.lightGreen.shade800, width: 4),
+            borderSide: BorderSide(color: Colors.green.shade800, width: 4),
           ),
-          hintStyle: const TextStyle(color: Colors.white54),
-          labelStyle: const TextStyle(color: Colors.white)
+          hintStyle: TextStyle(color: Colors.yellow.shade50),
         ),
         textTheme: TextTheme(
-          bodyText1: const TextStyle(
-            color: Colors.white70,
+          bodyText1: TextStyle(
+            color: Colors.yellow.shade200,
             fontSize: 28.0,
           ),
           bodyText2: const TextStyle(
-            color: Colors.lightGreen,
+            color: Colors.green,
             fontSize: 48.0,
             fontFamily: 'Creepster',
+            shadows: [Shadow(color: Colors.yellowAccent, offset: Offset(0, 0), blurRadius: 20)]
           ),
           button: TextStyle(
-            foreground: Paint()..color=Colors.white70,
+            foreground: Paint()..color=Colors.yellow.shade100,
             fontSize: 36.0,
             fontFamily: 'Creepster',
           ),

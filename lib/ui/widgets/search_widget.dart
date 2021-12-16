@@ -17,7 +17,7 @@ class SearchWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Text(
-            'Search Weather\nInstanly',
+            'Search Weather',
             textAlign: TextAlign.center,
           ),
           TextFormField(
